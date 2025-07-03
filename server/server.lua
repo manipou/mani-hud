@@ -1,0 +1,5 @@
+CreateThread(function()
+    SetInterval(function()
+        GlobalState.PlayerCount = #GetPlayers()
+    end, 10000)
+end)
