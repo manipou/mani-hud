@@ -2,7 +2,6 @@ local Config = lib.load('config')
 if Config.Framework ~= 'esx' then return end
 
 local ESX = exports['es_extended']:getSharedObject()
-local Hud = lib.load('main')
 
 local AmmoTypes = {
     [GetHashKey('WEAPON_SNSPISTOL')] = 'ammo',
@@ -21,20 +20,18 @@ local AmmoTypes = {
 }
 
 RegisterNetEvent('esx:playerLoaded', function()
-    print('Player Loaded')
     CreateThread(function()
         while not DoesEntityExist(PlayerPedId()) do Wait(100) end
-        print('Loaded')
-        Hud:Initiate()
+        Mani_Hud:Initiate()
     end)
 end)
 
 AddEventHandler('esx_status:onTick', function(data)
 	for i = 1, #data do
 		if data[i].name == 'hunger' then
-			Hud.Hunger = math.floor(data[i].percent)
+			Mani_Hud.Hunger = math.floor(data[i].percent)
         elseif data[i].name == 'thirst' then
-			Hud.Thirst = math.floor(data[i].percent)
+			Mani_Hud.Thirst = math.floor(data[i].percent)
         end
 	end
 end)
@@ -47,12 +44,12 @@ local function GetAccounts(accounts)
     return Accounts
 end
 
-function Hud:GetFuel()
+function Mani_Hud:GetFuel()
     if not cache.vehicle then return 0 end
     return Entity(cache.vehicle).state.fuel
 end
 
-function Hud:UpdatePlayerData()
+function Mani_Hud:UpdatePlayerData()
     local PlayerData = ESX.GetPlayerData()
     local Job = PlayerData.job
     local Accounts = GetAccounts(PlayerData.accounts)
@@ -66,10 +63,10 @@ function Hud:UpdatePlayerData()
     }
 end
 
-function Hud:GetAmmoCount(weapon)
+function Mani_Hud:GetAmmoCount(weapon)
     return exports['ox_inventory']:Search('count', AmmoTypes[weapon]) or 0
 end
 
 RegisterNetEvent('pma-voice:setTalkingMode', function(range)
-    Hud.VoiceRange = range
+    Mani_Hud.VoiceRange = range
 end)

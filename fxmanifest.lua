@@ -11,6 +11,7 @@ lua54 'yes'
 ui_page 'web/build/index.html'
 
 client_scripts {
+  'main.lua',
   'client/*.lua',
   'framework/*.lua',
 }
@@ -25,7 +26,6 @@ files {
   'web/build/index.html',
   'web/build/**/*',
   'config.lua',
-  'main.lua'
 }
 
 escrow_ignore {

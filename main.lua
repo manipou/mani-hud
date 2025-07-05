@@ -1,6 +1,6 @@
 local Config = lib.load('config')
 
-local Hud = {
+Mani_Hud = {
     Showing = false,
     ShowCompass = true,
     IntervalMS = Config.Intervals['Prio'],
@@ -38,7 +38,7 @@ local function getCrossroads(Ped)
     return GetStreetNameFromHashKey(street1), zone
 end
 
-function Hud:Toggle()
+function Mani_Hud:Toggle()
     self.Showing = not self.Showing
     SendNUIMessage({
         action = 'setVisible',
@@ -48,7 +48,7 @@ function Hud:Toggle()
     if self.Showing then self:Interval() end
 end
 
-function Hud:Update()
+function Mani_Hud:Update()
     local Ped = cache.ped
 
     self.Health = math.max(0, GetEntityHealth(Ped) - 100)
@@ -66,7 +66,7 @@ function Hud:Update()
         local Weapon = cache.weapon
         self.Weapon = Config.Weapons[Weapon] or 'Unknown Weapon'
         self.Ammo = GetAmmoInPedWeapon(Ped, Weapon)
-        self.MaxAmmo = Hud:GetAmmoCount(Weapon)
+        self.MaxAmmo = Mani_Hud:GetAmmoCount(Weapon)
     end
 
     if self.InVehicle then
@@ -99,7 +99,7 @@ function Hud:Update()
     })
 end
 
-function Hud:Interval()
+function Mani_Hud:Interval()
     CreateThread(function()
         while self.Showing do
             Wait(self.IntervalMS)   
@@ -111,12 +111,12 @@ end
 
 CreateThread(function()
     SetInterval(function()
-        if not Hud.Showing then return end
-        Hud:UpdatePlayerData()
+        if not Mani_Hud.Showing then return end
+        Mani_Hud:UpdatePlayerData()
         SendNUIMessage({
             action = 'updateHud',
             data = {
-                PlayerData = Hud.PlayerData,
+                PlayerData = Mani_Hud.PlayerData,
                 PlayerCount = GlobalState.PlayerCount,
                 AspectRatio = GetAspectRatio(false)
             }
@@ -124,7 +124,7 @@ CreateThread(function()
     end, Config.Intervals['LowPrio'])
 end)
 
-function Hud:Initiate()
+function Mani_Hud:Initiate()
     local Ped = cache.ped
 
     self.Showing = true
@@ -152,34 +152,32 @@ end
 
 lib.onCache('weapon', function(Equipped, Unequipped)
     if Equipped and Config.Weapons[Equipped] then
-        Hud.HasWeapon = true
+        Mani_Hud.HasWeapon = true
     else
-        Hud.HasWeapon = false
-        Hud.Weapon = nil
-        Hud.Ammo = nil
-        Hud.MaxAmmo = nil
+        Mani_Hud.HasWeapon = false
+        Mani_Hud.Weapon = nil
+        Mani_Hud.Ammo = nil
+        Mani_Hud.MaxAmmo = nil
     end
 end)
 
 lib.onCache('vehicle', function(vehicle, oldVehicle)
     if vehicle then
-        Hud.InVehicle = true
-        Hud.IntervalMS = Config.Intervals['InVehicle']
+        Mani_Hud.InVehicle = true
+        Mani_Hud.IntervalMS = Config.Intervals['InVehicle']
     else
-        Hud.InVehicle = false
-        Hud.IntervalMS = Config.Intervals['Prio']
+        Mani_Hud.InVehicle = false
+        Mani_Hud.IntervalMS = Config.Intervals['Prio']
     end
 end)
 
 RegisterNUICallback('hideUI', function(_, cb)
     cb({})
-    Hud.Showing = false
+    Mani_Hud.Showing = false
 end)
 
 RegisterCommand(Config.Commands['toggle'], function()
-    Hud:Toggle()
+    Mani_Hud:Toggle()
 end)
 
-if Config.Debug then Wait(1000) Hud:Initiate() end
-
-return Hud
+if Config.Debug then Wait(1000) Mani_Hud:Initiate() end
