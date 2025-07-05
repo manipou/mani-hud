@@ -27,3 +27,9 @@ files {
   'config.lua',
   'main.lua'
 }
+
+escrow_ignore {
+  'config.lua',
+  'client/*.lua',
+  'framework/*.lua',
+}
