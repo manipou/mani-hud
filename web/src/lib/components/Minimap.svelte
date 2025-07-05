@@ -14,16 +14,13 @@
 	<link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
 </svelte:head>
 
-<div class="flex flex-col gap-2 absolute bottom-[1.5vh] left-[1.5vw] w-[16.2vw] h-[26vh]">
-    <!-- Weapon Info -->
+<div class="flex flex-col gap-2 absolute bottom-[1.5vh] left-[1.5vw]" style="width: calc(16.2vw * (16/9) / {$Hud.AspectRatio}); height: 26vh;">
     {#if $Hud.HasWeapon}
     <div class="flex flex-col gap-1">
-        <!-- Weapon Name -->
         <div class="text-cyan-300 text-sm font-bold tracking-wider drop-shadow-[0_0_5px_rgba(0,195,255,0.8)]">
             {$Hud.Weapon}
         </div>
-        
-        <!-- Ammo Counter with Magazine Icon -->
+
         <div class="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-cyan-300/80">
                 <path d="M4 5c0-1.1.9-2 2-2h12a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm0 8c0-1.1.9-2 2-2h12a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm0 8c0-1.1.9-2 2-2h12a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"/>
@@ -34,13 +31,10 @@
         </div>
     </div>
     {/if}
-    
-    <!-- Spacer to push health/armor to bottom -->
+
     <div class="flex-grow"></div>
 
-    <!-- Health and Armor Bars -->
     <div class="flex gap-[0.2vw] mt-auto">
-
         <!-- Health Bar -->
         <div class="flex items-center gap-2 flex-1">
             <div class="flex-1 h-[3vh] relative border border-cyan-400/25 shadow-[inset_0_0_8px_rgba(100,200,255,0.8)]">

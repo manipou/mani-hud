@@ -7,8 +7,8 @@ description 'Hud V1'
 version '1.0.0'
 lua54 'yes'
 
-ui_page 'http://localhost:5173/' -- Uncomment this if you are using Vite (live preview when developing)
--- ui_page 'web/build/index.html'
+-- ui_page 'http://localhost:5173/' -- Uncomment this if you are using Vite (live preview when developing)
+ui_page 'web/build/index.html'
 
 client_scripts {
   'client/*.lua',

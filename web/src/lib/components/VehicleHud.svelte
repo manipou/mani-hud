@@ -2,6 +2,8 @@
 	import { Hud } from "$lib/stores/VisibilityStore";
     import { tweened } from "svelte/motion";
 	import { cubicOut } from "svelte/easing";
+	import { fade } from 'svelte/transition';
+
 
 	const speed = tweened(0, {
 		duration: 300,
@@ -20,7 +22,7 @@
 </svelte:head>
 
 <!-- Vehicle HUD Info -->
-<div class="absolute bottom-[3vh] left-0 w-[100%] h-[18.4vh] flex flex-col justify-end">
+<div class="absolute bottom-[3vh] left-0 w-[100%] h-[18.4vh] flex flex-col justify-end" transition:fade={{ duration: 300 }}>
     <div class="relative w-full pb-[0vh]">
         <div class="flex justify-between items-center px-[0.5vw]">
             <div class="flex items-center gap-1">

@@ -38,6 +38,14 @@
 		Heading?: number;
 		ServerLogo?: string;
 		PlayerCount?: number;
+		Talking?: boolean;
+		VoiceRange?: number;
+		AspectRatio?: number;
+		Currency?: {
+			Symbol: string;
+			Position: string;
+			Separator: string;
+		}
 		PlayerData?: {
 			Job?: string;
 			Grade?: string;

@@ -17,8 +17,10 @@ local Hud = {
     Fuel = 100,
     Heading = 0,
     StreetName = "",
-    CrossingRoad = "",
+    Zone = "",
     PlayerCount = 0,
+    Talking = false,
+    VoiceRange = 2,
     PlayerData = {
         Job = "",
         Grade = "",
@@ -53,16 +55,18 @@ function Hud:Update()
     self.Armor = GetPedArmour(Ped)
 
     self.Heading = math.floor(360.0 - ((GetGameplayCamRot(0).z + 360.0) % 360.0))
-    local StreetName, CrossingRoad = getCrossroads(Ped)
+    local StreetName, Zone = getCrossroads(Ped)
 
     if StreetName ~= '' then self.StreetName = StreetName end
-    if CrossingRoad ~= '' then self.CrossingRoad = CrossingRoad end
-    
+    if Zone ~= '' then self.Zone = Zone end
+
+    self.Talking = NetworkIsPlayerTalking(cache.playerId) == 1 and true or false
+
     if self.HasWeapon then
         local Weapon = cache.weapon
         self.Weapon = Config.Weapons[Weapon] or 'Unknown Weapon'
         self.Ammo = GetAmmoInPedWeapon(Ped, Weapon)
-        self.MaxAmmo = GetWeaponClipSize(Weapon)    
+        self.MaxAmmo = Hud:GetAmmoCount(Weapon)
     end
 
     if self.InVehicle then
@@ -88,7 +92,9 @@ function Hud:Update()
             Heading = self.Heading,
             AlwaysCompass = self.AlwaysCompass,
             StreetName = self.StreetName,
-            CrossingRoad = self.CrossingRoad
+            Zone = self.Zone,
+            Talking = self.Talking,
+            VoiceRange = self.VoiceRange
         }
     })
 end
@@ -111,7 +117,8 @@ CreateThread(function()
             action = 'updateHud',
             data = {
                 PlayerData = Hud.PlayerData,
-                PlayerCount = GlobalState.PlayerCount
+                PlayerCount = GlobalState.PlayerCount,
+                AspectRatio = GetAspectRatio(false)
             }
         })
     end, Config.Intervals['LowPrio'])
@@ -133,7 +140,10 @@ function Hud:Initiate()
             Hunger = self.Hunger,
             Thirst = self.Thirst,
             SpeedUnit = Config.SpeedUnit,
-            ServerLogo = Config.ServerLogo
+            ServerLogo = Config.ServerLogo,
+            Id = cache.serverId,
+            Currency = Config.Currency,
+            AspectRatio = GetAspectRatio(false)
         }
     })
 
@@ -141,7 +151,7 @@ function Hud:Initiate()
 end
 
 lib.onCache('weapon', function(Equipped, Unequipped)
-    if Equipped then
+    if Equipped and Config.Weapons[Equipped] then
         Hud.HasWeapon = true
     else
         Hud.HasWeapon = false

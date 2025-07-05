@@ -4,18 +4,36 @@ if Config.Framework ~= 'esx' then return end
 local ESX = exports['es_extended']:getSharedObject()
 local Hud = lib.load('main')
 
-RegisterNetEvent('esx:playerLoaded', function(xPlayer)
+local AmmoTypes = {
+    [GetHashKey('WEAPON_SNSPISTOL')] = 'ammo',
+    [GetHashKey('WEAPON_PISTOL')] = 'ammo',
+    [GetHashKey('WEAPON_CERAMICPISTOL')] = 'ammo',
+    [GetHashKey('WEAPON_VINTAGEPISTOL')] = 'ammo',
+    [GetHashKey('WEAPON_PISTOLXM3')] = 'ammo',
+    [GetHashKey('WEAPON_PISTOL50')] = 'ammo',
+    [GetHashKey('WEAPON_NAIVYREVOLVER')] = 'ammo',
+    [GetHashKey('WEAPON_REVOLVER')] = 'ammo',
+    [GetHashKey('WEAPON_PUMPSHOTGUN')] = 'ammo2',
+    [GetHashKey('WEAPON_COMBATPISTOL')] = 'ammo',
+    [GetHashKey('WEAPON_HEAVYPISTOL')] = 'ammo',
+    [GetHashKey('WEAPON_SMG')] = 'ammo',
+    [GetHashKey('WEAPON_CARBINERIFLE')] = 'ammo',
+}
+
+RegisterNetEvent('esx:playerLoaded', function()
+    print('Player Loaded')
     CreateThread(function()
         while not DoesEntityExist(PlayerPedId()) do Wait(100) end
+        print('Loaded')
         Hud:Initiate()
     end)
 end)
 
-AddEventHandler("esx_status:onTick", function(data)
+AddEventHandler('esx_status:onTick', function(data)
 	for i = 1, #data do
-		if data[i].name == "hunger" then
+		if data[i].name == 'hunger' then
 			Hud.Hunger = math.floor(data[i].percent)
-        elseif data[i].name == "thirst" then
+        elseif data[i].name == 'thirst' then
 			Hud.Thirst = math.floor(data[i].percent)
         end
 	end
@@ -47,3 +65,11 @@ function Hud:UpdatePlayerData()
         Bank = math.floor(Accounts.bank)
     }
 end
+
+function Hud:GetAmmoCount(weapon)
+    return exports['ox_inventory']:Search('count', AmmoTypes[weapon]) or 0
+end
+
+RegisterNetEvent('pma-voice:setTalkingMode', function(range)
+    Hud.VoiceRange = range
+end)

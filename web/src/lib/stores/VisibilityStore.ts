@@ -28,9 +28,18 @@ export const Hud = writable<{
     SpeedUnit: string;
     Heading: number;
     StreetName: string;
-    CrossingRoad: string;
+    Zone: string;
     ServerLogo: string;
     PlayerCount: number;
+    Id: number;
+    Talking: boolean;
+    VoiceRange: number;
+    AspectRatio: number;
+    Currency: {
+        Symbol: string;
+        Position: string;
+        Separator: string;
+    }
     PlayerData: {
         Job: string;
         Grade: string;
@@ -52,12 +61,21 @@ export const Hud = writable<{
     InVehicle: false,
 	Speed: 0,
     Fuel: 100,
-    SpeedUnit: "KM/h",
+    SpeedUnit: "km/h",
     Heading: 0,
     StreetName: "",
-    CrossingRoad: "",
+    Zone: "",
     ServerLogo: "",
     PlayerCount: 0,
+    Id: 0,
+    Talking: false,
+    VoiceRange: 1,
+    AspectRatio: 1.7777777910233,
+    Currency: {
+        Symbol: " kr.",
+        Position: "after",
+        Separator: ","
+    },
     PlayerData: {
         Job: "",
         Grade: "",
