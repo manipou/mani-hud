@@ -1,6 +1,6 @@
 local Config = {}
 
-Config.Debug = false
+Config.Debug = true
 
 Config.Framework = 'esx'
 
@@ -9,6 +9,13 @@ Config.ServerLogo = 'https://files.fivemerr.com/images/7d802115-861b-49c4-8d0a-d
 Config.SpeedUnit = 'km/t'
 
 Config.SpeedMultipler = 3.6 -- For MPH use: 2.236936
+
+Config.DefaultSettings = {
+    ShowCompass = 'on', -- on, off, vehicle
+    Stats = 'A', -- A, B
+    CompassMode = 'Camera', -- Camera, Character
+    CompassInterval = 'Low' -- Low, High
+}
 
 Config.Currency = {
     Symbol = ' kr.',
@@ -33,13 +40,15 @@ Config.Weapons = {
 }
 
 Config.Commands = {
-    ['toggle'] = 'togglehud'
+    ['toggle'] = 'togglehud',
+    ['settings'] = 'hud:settings'
 }
 
 Config.Intervals = {
     ['Prio'] = 800,
     ['InVehicle'] = 300,
-    ['LowPrio'] = 2000
+    ['LowPrio'] = 3000,
+    ['HighCompass'] = 50 -- This loop only runs, if the user has enabled High mode
 }
 
 return Config

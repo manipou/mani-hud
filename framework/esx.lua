@@ -26,6 +26,13 @@ RegisterNetEvent('esx:playerLoaded', function()
     end)
 end)
 
+CreateThread(function()
+    if ESX.IsPlayerLoaded() then
+        Wait(250)
+        Mani_Hud:Initiate()
+    end
+end)
+
 AddEventHandler('esx_status:onTick', function(data)
 	for i = 1, #data do
 		if data[i].name == 'hunger' then

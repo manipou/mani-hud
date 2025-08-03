@@ -27,7 +27,8 @@ Mani_Hud = {
         Money = 0,
         BlackMoney = 0,
         Bank = 0
-    }
+    },
+    HudSettings = Config.DefaultSettings
 }
 
 local function getCrossroads(Ped)
@@ -54,7 +55,14 @@ function Mani_Hud:Update()
     self.Health = math.max(0, GetEntityHealth(Ped) - 100)
     self.Armor = GetPedArmour(Ped)
 
-    self.Heading = math.floor(360.0 - ((GetGameplayCamRot(0).z + 360.0) % 360.0))
+    if self.HudSettings.CompassInterval == 'Low' then
+        if self.HudSettings.CompassMode == 'Camera' then
+            self.Heading = math.floor(360.0 - ((GetGameplayCamRot(0).z + 360.0) % 360.0))
+        elseif self.HudSettings.CompassMode == 'Character' then
+            self.Heading = math.floor(360.0 - ((GetEntityHeading(Ped) + 360.0) % 360.0))
+        end
+    end
+
     local StreetName, Zone = getCrossroads(Ped)
 
     if StreetName ~= '' then self.StreetName = StreetName end
@@ -78,6 +86,7 @@ function Mani_Hud:Update()
     SendNUIMessage({
         action = 'updateHud',
         data = {
+            ShowCompass = self.ShowCompass,
             Health = self.Health,
             Armor = self.Armor,
             Hunger = self.Hunger,
@@ -90,7 +99,6 @@ function Mani_Hud:Update()
             Speed = self.Speed,
             Fuel = self.Fuel,
             Heading = self.Heading,
-            AlwaysCompass = self.AlwaysCompass,
             StreetName = self.StreetName,
             Zone = self.Zone,
             Talking = self.Talking,
@@ -102,8 +110,8 @@ end
 function Mani_Hud:Interval()
     CreateThread(function()
         while self.Showing do
-            Wait(self.IntervalMS)   
-
+            Wait(self.IntervalMS)
+            
             self:Update()
         end
     end)
@@ -124,12 +132,57 @@ CreateThread(function()
     end, Config.Intervals['LowPrio'])
 end)
 
+function Mani_Hud:HighCompassInterval()
+    CreateThread(function()
+        while self.HudSettings.CompassInterval == 'High' do
+            if self.Showing and self.ShowCompass then
+                local LastHeading = self.Heading
+                local Ped = cache.ped
+
+                if self.HudSettings.CompassMode == 'Camera' then
+                    self.Heading = math.floor(360.0 - ((GetGameplayCamRot(0).z + 360.0) % 360.0))
+                elseif self.HudSettings.CompassMode == 'Character' then
+                    self.Heading = math.floor(360.0 - ((GetEntityHeading(Ped) + 360.0) % 360.0))
+                end
+
+                if LastHeading ~= self.Heading then
+                    SendNUIMessage({
+                        action = 'updateHud',
+                        data = {
+                            Heading = self.Heading
+                        }
+                    }) 
+                end
+            end
+
+            Wait(Config.Intervals['HighCompass'])
+        end
+    end)
+end
+
 function Mani_Hud:Initiate()
     local Ped = cache.ped
 
     self.Showing = true
     self.Health = GetEntityHealth(Ped) - 100
     self.Armor = GetPedArmour(Ped)
+
+    local HudSettings = lib.callback.await('mani-hud:server:getSettings', false)
+    if HudSettings then
+        if HudSettings.ShowCompass == 'on' then
+            self.ShowCompass = true
+        elseif HudSettings.ShowCompass == 'off' or HudSettings.ShowCompass == 'vehicle' then
+            self.ShowCompass = false
+        end
+
+        self.HudSettings = HudSettings
+    end
+
+    if HudSettings.CompassInterval == 'High' then
+        self:HighCompassInterval()
+    end
+
+    Mani_Hud:UpdatePlayerData()
 
     SendNUIMessage({
         action = 'updateHud',
@@ -143,7 +196,10 @@ function Mani_Hud:Initiate()
             ServerLogo = Config.ServerLogo,
             Id = cache.serverId,
             Currency = Config.Currency,
-            AspectRatio = GetAspectRatio(false)
+            AspectRatio = GetAspectRatio(false),
+            HudSettings = self.HudSettings,
+            PlayerData = Mani_Hud.PlayerData,
+            PlayerCount = GlobalState.PlayerCount
         }
     })
 
@@ -165,9 +221,17 @@ lib.onCache('vehicle', function(vehicle, oldVehicle)
     if vehicle then
         Mani_Hud.InVehicle = true
         Mani_Hud.IntervalMS = Config.Intervals['InVehicle']
+
+        if Mani_Hud.HudSettings.ShowCompass == 'vehicle' then
+            Mani_Hud.ShowCompass = true
+        end
     else
         Mani_Hud.InVehicle = false
         Mani_Hud.IntervalMS = Config.Intervals['Prio']
+
+        if Mani_Hud.HudSettings.ShowCompass == 'vehicle' then
+            Mani_Hud.ShowCompass = false
+        end
     end
 end)
 
@@ -176,8 +240,56 @@ RegisterNUICallback('hideUI', function(_, cb)
     Mani_Hud.Showing = false
 end)
 
+RegisterNUICallback('HideSettings', function(_, cb)
+    Mani_Hud.HudSettings.ShowMenu = false
+    SetNuiFocus(false, false)
+    cb(true)
+end)
+
+RegisterNUICallback('UpdateSettings', function(data, cb)
+    Mani_Hud.HudSettings = data
+
+    if Mani_Hud.HudSettings.ShowCompass == 'vehicle' then
+        if not Mani_Hud.InVehicle then
+            Mani_Hud.ShowCompass = false
+        end
+    elseif Mani_Hud.HudSettings.ShowCompass == 'off' then
+        Mani_Hud.ShowCompass = false
+    elseif Mani_Hud.HudSettings.ShowCompass == 'on' then
+        Mani_Hud.ShowCompass = true
+    end
+
+    cb({})
+end)
+
+RegisterNUICallback('UpdateCompassInterval', function(Setting, cb)
+    Mani_Hud.HudSettings.CompassInterval = Setting
+
+    if Setting == 'High' then
+        Mani_Hud:HighCompassInterval()
+    end
+
+    cb({})
+end)
+
+RegisterNUICallback('SaveSettings', function(_, cb)
+    TriggerServerEvent('mani-hud:server:setSettings', Mani_Hud.HudSettings)
+    cb({})
+end)
+
 RegisterCommand(Config.Commands['toggle'], function()
     Mani_Hud:Toggle()
 end)
 
-if Config.Debug then Wait(1000) Mani_Hud:Initiate() end
+RegisterCommand(Config.Commands['settings'], function()
+    Mani_Hud.HudSettings.ShowMenu = true
+    SendNUIMessage({
+        action = 'updateHud',
+        data = {
+            HudSettings = Mani_Hud.HudSettings
+        }
+    })
+    SetNuiFocus(true, true)
+end)
+
+if Config.Debug then SetNuiFocus(false, false) end

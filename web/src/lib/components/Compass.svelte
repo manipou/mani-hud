@@ -1,21 +1,8 @@
 <script lang="ts">
 	import { Hud } from "$lib/stores/VisibilityStore";
-	import { tweened } from "svelte/motion";
-	import { cubicOut } from "svelte/easing";
-
-	const heading = tweened(0, {
-		duration: 50,
-		easing: cubicOut
-	});
-
-	$: {
-		if ($Hud.Heading !== undefined) {
-			heading.set($Hud.Heading);
-		}
-	}
 
 	$: currentDirection = (() => {
-		const normalizedHeading = (($heading % 360) + 360) % 360;
+		const normalizedHeading = (($Hud.Heading % 360) + 360) % 360;
 		
 		if (normalizedHeading >= 337.5 || normalizedHeading < 22.5) return "N";
 		if (normalizedHeading >= 22.5 && normalizedHeading < 67.5) return "NE";
@@ -31,25 +18,27 @@
 </script>
 
 <svelte:head>
-	<link href="https://fonts.googleapis.com/css2?family=Share+Tech&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </svelte:head>
 
-<div class="fixed top-[1vh] inset-x-0 mx-auto w-[30vw] flex items-center justify-center pointer-events-none z-50">
-	<div class="flex-1 text-right pr-2 overflow-hidden">
-		<span class="text-blue-200 text-[1.2vh] font-bold tracking-wider drop-shadow-[0_0_2px_rgba(0,100,255,0.9)]">
-			{$Hud.StreetName}
-		</span>
-	</div>
+{#if $Hud.ShowCompass}
+	<div class="fixed top-[1vh] inset-x-0 mx-auto w-[30vw] flex items-center justify-center pointer-events-none z-50 font-['Inter'] select-none">
+		<div class="flex-1 text-right pr-2 overflow-hidden">
+			<span class="text-slate-200 text-[1.2vh] font-medium tracking-wide">
+				{$Hud.StreetName}
+			</span>
+		</div>
 
-	<div class="px-[0.8vh] py-[0.2vh] bg-blue-950/90 rounded-sm border border-blue-500/30 text-center w-[3.75vw] flex justify-center items-center">
-		<span class="text-blue-300 text-[1.3vh] font-bold tracking-wider drop-shadow-[0_0_1px_rgba(0,100,255,0.7)]">
-			{Math.round($heading)}° {currentDirection}
-		</span>
-	</div>
+		<div class="px-[0.8vh] py-[0.2vh] bg-slate-900/95 rounded-[0.2vh] border border-slate-600/30 shadow-lg text-center w-[3.75vw] h-[2.6vh] flex justify-center items-center transition-all duration-200 hover:border-slate-500/40">
+			<span class="text-slate-100 text-[1.3vh] font-medium font-['JetBrains_Mono'] tracking-wide whitespace-nowrap">
+				{Math.round($Hud.Heading)}° {currentDirection}
+			</span>
+		</div>
 
-	<div class="flex-1 text-left pl-2 overflow-hidden">
-		<span class="text-blue-200 text-[1.2vh] font-bold tracking-wider drop-shadow-[0_0_2px_rgba(0,100,255,0.9)]">
-			{$Hud.Zone}
-		</span>
+		<div class="flex-1 text-left pl-2 overflow-hidden">
+			<span class="text-slate-200 text-[1.2vh] font-medium tracking-wide">
+				{$Hud.Zone}
+			</span>
+		</div>
 	</div>
-</div>
+{/if}

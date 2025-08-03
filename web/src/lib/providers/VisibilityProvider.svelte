@@ -1,20 +1,6 @@
 <script lang="ts">
-	import { onMount } from "svelte";
 	import { visibilityStore as visibility, Hud } from "$lib/stores/VisibilityStore";
 	import { useNuiEvent } from "$lib/hooks/useNuiEvent";
-	import { fetchNui } from "$lib/utils/fetchNui";
-
-	onMount(() => {
-		const keyHandler = (e: KeyboardEvent) => {
-			if ($visibility && e.code === "Escape") {
-				fetchNui("hideUI");
-				visibility.hide();
-			}
-		};
-
-		window.addEventListener("keydown", keyHandler);
-		return () => window.removeEventListener("keydown", keyHandler);
-	});
 
 	useNuiEvent<boolean>("setVisible", (visible) => {
 		visibility.toggle(visible);
@@ -52,6 +38,13 @@
 			Money?: number;
 			BlackMoney?: number;
 			Bank?: number;
+		}
+		HudSettings?: {
+			ShowMenu: boolean;
+			ShowCompass: string;
+			Stats: string;
+			CompassInterval: string;
+			CompassMode: string;
 		}
 	}>('updateHud', (data) => {
 		if (data.Force) {

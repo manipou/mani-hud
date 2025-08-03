@@ -3,6 +3,7 @@
 	import Compass from "$lib/components/Compass.svelte";
 	import Stats_A from "$lib/components/Stats_A.svelte";
 	import Stats_B from "$lib/components/Stats_B.svelte";
+	import Settings from "$lib/components/Settings.svelte";
 	import { Hud } from "./stores/VisibilityStore";
 	import { fade } from 'svelte/transition';
 
@@ -13,10 +14,14 @@
 </svelte:head>
 
 <div class="relative h-screen w-full p-4 text-white font-sans" style="font-family: 'Share Tech', sans-serif;" transition:fade={{ duration: 300 }}>
+	<Settings />
 	<Minimap />
 	{#if $Hud.ShowCompass }
 		<Compass />
 	{/if}
-	<Stats_A />
-	<!-- <Stats_B /> -->
+	{#if $Hud.HudSettings.Stats === 'A'}
+		<Stats_A />
+	{:else if $Hud.HudSettings.Stats === 'B'}
+		<Stats_B />
+	{/if}
 </div>

@@ -47,6 +47,13 @@ export const Hud = writable<{
         BlackMoney: number;
         Bank: number;
     }
+    HudSettings: {
+        ShowMenu: boolean;
+        ShowCompass: string;
+        Stats: string;
+		CompassMode: string;
+        CompassInterval: string;
+    }
 }>({
     Showing: true,
 	ShowCompass: true,
@@ -82,5 +89,12 @@ export const Hud = writable<{
         Money: 0,
         BlackMoney: 0,
         Bank: 0
+    },
+    HudSettings: {
+        ShowMenu: false,
+        ShowCompass: "on",
+		Stats: "A",
+		CompassMode: "Camera",
+        CompassInterval: "Low"
     }
 });
