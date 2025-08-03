@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Hud } from "$lib/stores/VisibilityStore";
     import VehicleHud from "./VehicleHud.svelte"
+    import Stats_C from "./Stats_C.svelte"
 
 	let maxHealth = 100;
 	let maxArmor = 100;
@@ -14,7 +15,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </svelte:head>
 
-<div class="flex flex-col gap-2 absolute bottom-[1.5vh] left-[1.5vw] font-['Inter'] select-none" style="width: calc(16.2vw * (16/9) / {$Hud.AspectRatio}); height: 26vh;">
+<div class="flex flex-col gap-2 absolute bottom-[1.5vh] left-[1.5vw] font-['Inter'] select-none" style="width: calc(16.2vw * (16/9) / {$Hud.AspectRatio}); height: 21.3vh;">
     {#if $Hud.HasWeapon}
     <div class="flex flex-col gap-1">
         <div class="text-slate-200 text-sm font-medium tracking-wide">
@@ -121,6 +122,11 @@
     </div>
 
     {#if $Hud.InVehicle}
-    <VehicleHud />
+        <VehicleHud />
+    {/if}
+
+
+    {#if $Hud.HudSettings.Stats === 'C'}
+        <Stats_C />
     {/if}
 </div>

@@ -39,6 +39,14 @@ local function getCrossroads(Ped)
     return GetStreetNameFromHashKey(street1), zone
 end
 
+local function getHeading(Ped)
+    if Mani_Hud.HudSettings.CompassMode == 'Camera' then
+        return math.floor(360.0 - ((GetGameplayCamRot(0).z + 360.0) % 360.0))
+    elseif Mani_Hud.HudSettings.CompassMode == 'Character' then
+        return math.floor(360.0 - ((GetEntityHeading(Ped) + 360.0) % 360.0))
+    end
+end
+
 function Mani_Hud:Toggle()
     self.Showing = not self.Showing
     SendNUIMessage({
@@ -56,11 +64,7 @@ function Mani_Hud:Update()
     self.Armor = GetPedArmour(Ped)
 
     if self.HudSettings.CompassInterval == 'Low' then
-        if self.HudSettings.CompassMode == 'Camera' then
-            self.Heading = math.floor(360.0 - ((GetGameplayCamRot(0).z + 360.0) % 360.0))
-        elseif self.HudSettings.CompassMode == 'Character' then
-            self.Heading = math.floor(360.0 - ((GetEntityHeading(Ped) + 360.0) % 360.0))
-        end
+        self.Heading = getHeading(Ped)
     end
 
     local StreetName, Zone = getCrossroads(Ped)
@@ -139,11 +143,7 @@ function Mani_Hud:HighCompassInterval()
                 local LastHeading = self.Heading
                 local Ped = cache.ped
 
-                if self.HudSettings.CompassMode == 'Camera' then
-                    self.Heading = math.floor(360.0 - ((GetGameplayCamRot(0).z + 360.0) % 360.0))
-                elseif self.HudSettings.CompassMode == 'Character' then
-                    self.Heading = math.floor(360.0 - ((GetEntityHeading(Ped) + 360.0) % 360.0))
-                end
+                self.Heading = getHeading(Ped)
 
                 if LastHeading ~= self.Heading then
                     SendNUIMessage({
@@ -291,5 +291,9 @@ RegisterCommand(Config.Commands['settings'], function()
     })
     SetNuiFocus(true, true)
 end)
+
+RegisterKeyMapping(Config.Commands['settings'], 'Open Hud Settings', 'keyboard', Config.Keybinds['settings'])
+
+RegisterKeyMapping(Config.Commands['toggle'], 'Toggle Hud', 'keyboard', Config.Keybinds['toggle'])
 
 if Config.Debug then SetNuiFocus(false, false) end

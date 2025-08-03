@@ -51,6 +51,7 @@ export const Hud = writable<{
         ShowMenu: boolean;
         ShowCompass: string;
         Stats: string;
+		ServerInfo: string;
 		CompassMode: string;
         CompassInterval: string;
     }
@@ -94,6 +95,7 @@ export const Hud = writable<{
         ShowMenu: false,
         ShowCompass: "on",
 		Stats: "A",
+		ServerInfo: "A",
 		CompassMode: "Camera",
         CompassInterval: "Low"
     }

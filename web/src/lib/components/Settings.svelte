@@ -55,6 +55,18 @@
 		fetchNui("UpdateSettings", $Hud.HudSettings)
 	}
 
+	function setServerInfoSetting(value: string) {
+		Hud.update(h => ({
+			...h,
+			HudSettings: {
+				...h.HudSettings,
+				ServerInfo: value
+			}
+		}));
+
+		fetchNui("UpdateSettings", $Hud.HudSettings)
+	}
+
 	function setCompassMode(value: string) {
 		Hud.update(h => ({
 			...h,
@@ -210,6 +222,7 @@
 									>
 										<option value="A" class="bg-slate-800 text-slate-200">Style A</option>
 										<option value="B" class="bg-slate-800 text-slate-200">Style B</option>
+										<option value="C" class="bg-slate-800 text-slate-200">Style C</option>
 										<option value="Off" class="bg-slate-800 text-slate-200">Off</option>
 									</select>
 									<!-- Custom dropdown arrow -->
@@ -220,6 +233,29 @@
 									</div>
 								</div>
 							</div>
+
+							<!-- ServerInfo Display -->
+							<div class="flex items-center justify-between">
+								<label class="text-slate-300 text-[1.1vh] font-medium">ServerInfo Display</label>
+								<div class="relative">
+									<select 
+										bind:value={$Hud.HudSettings.ServerInfo}
+										on:change={(e) => setServerInfoSetting(e.target.value)}
+										class="appearance-none bg-slate-800/60 hover:bg-slate-700/70 focus:bg-slate-700/80 text-slate-200 px-[0.8vh] py-[0.4vh] pr-[2vh] rounded-[0.2vh] border border-slate-600/30 hover:border-slate-500/50 focus:border-emerald-500/50 text-[0.9vh] font-medium min-w-[7vh] transition-all duration-200 cursor-pointer focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
+									>
+										<option value="A" class="bg-slate-800 text-slate-200">Style A</option>
+										<option value="B" class="bg-slate-800 text-slate-200">Style B</option>
+										<option value="Off" class="bg-slate-800 text-slate-200">Off</option>
+									</select>
+									<!-- Custom dropdown arrow -->
+									<div class="absolute inset-y-0 right-0 flex items-center pr-[0.6vh] pointer-events-none">
+										<svg class="w-[0.8vh] h-[0.8vh] text-slate-400 transition-colors duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+										</svg>
+									</div>
+								</div>
+							</div>
+
 						</div>
 					{/if}
 				</div>

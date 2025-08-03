@@ -43,6 +43,7 @@
 			ShowMenu: boolean;
 			ShowCompass: string;
 			Stats: string;
+			ServerInfo: string;
 			CompassInterval: string;
 			CompassMode: string;
 		}

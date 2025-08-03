@@ -13,8 +13,9 @@ Config.SpeedMultipler = 3.6 -- For MPH use: 2.236936
 Config.DefaultSettings = {
     ShowCompass = 'on', -- on, off, vehicle
     Stats = 'A', -- A, B
+    ServerInfo = 'A', -- A
     CompassMode = 'Camera', -- Camera, Character
-    CompassInterval = 'Low' -- Low, High
+    CompassInterval = 'High', -- Low, High
 }
 
 Config.Currency = {
@@ -37,6 +38,11 @@ Config.Weapons = {
     [GetHashKey('WEAPON_HEAVYPISTOL')] = 'Heavy Pistol',
     [GetHashKey('WEAPON_SMG')] = 'SMG',
     [GetHashKey('WEAPON_CARBINERIFLE')] = 'Carbine Rifle',
+}
+
+Config.Keybinds = {
+    ['toggle'] = 'COMMA',
+    ['settings'] = 'F9'
 }
 
 Config.Commands = {
