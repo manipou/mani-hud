@@ -46,6 +46,9 @@
 			ServerInfo: string;
 			CompassInterval: string;
 			CompassMode: string;
+			Offsets: {
+				ServerInfo: { X: number; Y: number }
+			}
 		}
 	}>('updateHud', (data) => {
 		if (data.Force) {
@@ -55,6 +58,14 @@
 		Hud.update((current) => ({
 			...current,
 			...data,
+			PlayerData: {
+				...current.PlayerData,
+				...data.PlayerData,
+			},
+			HudSettings: {
+				...current.HudSettings,
+				...data.HudSettings,
+			}
 		}));
 	});
 </script>

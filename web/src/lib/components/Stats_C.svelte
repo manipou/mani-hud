@@ -33,8 +33,8 @@
 		if (!$Hud?.Currency) return value.toLocaleString();
 		
 		const { Symbol, Position, Separator } = $Hud.Currency;
-		// Use toString() instead of toLocaleString() to prevent line breaks
-		const formattedValue = value.toString();
+		// Use toLocaleString() for proper comma formatting
+		const formattedValue = value.toLocaleString();
 		
 		return Position === 'before' 
 			? `${Symbol} ${formattedValue}` 
@@ -96,9 +96,9 @@
 <div class="absolute top-0 left-[calc(100%+0.5vh)] h-full flex flex-col justify-between items-start pointer-events-none font-['Inter'] select-none">
 	<!-- Cash -->
 	<div class="flex items-center gap-[0.8vh]">
-		<div class="w-[0.2vh] h-[2.5vh] bg-emerald-400 drop-shadow-md"></div>
+		<div class="w-[0.2vh] h-[85%] bg-emerald-400 drop-shadow-md"></div>
 		<div class="flex flex-col">
-			<span class="text-white text-[1.4vh] font-medium drop-shadow-md leading-tight">
+			<span class="text-white text-[1.4vh] font-bold drop-shadow-md leading-tight">
 				Cash
 			</span>
 			<span class="text-emerald-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-md leading-tight whitespace-nowrap">
@@ -109,9 +109,9 @@
 
 	<!-- Bank -->
 	<div class="flex items-center gap-[0.8vh]">
-		<div class="w-[0.2vh] h-[2.5vh] bg-blue-400 drop-shadow-md"></div>
+		<div class="w-[0.2vh] h-[85%] bg-blue-400 drop-shadow-md"></div>
 		<div class="flex flex-col">
-			<span class="text-white text-[1.4vh] font-medium drop-shadow-md leading-tight">
+			<span class="text-white text-[1.4vh] font-bold drop-shadow-md leading-tight">
 				Bank
 			</span>
 			<span class="text-blue-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-md leading-tight whitespace-nowrap">
@@ -121,9 +121,9 @@
 	</div>
 
 	<div class="flex items-center gap-[0.8vh]">
-		<div class="w-[0.2vh] h-[2.5vh] bg-red-400 drop-shadow-md"></div>
+		<div class="w-[0.2vh] h-[85%] bg-red-400 drop-shadow-md"></div>
 		<div class="flex flex-col">
-			<span class="text-white text-[1.4vh] font-medium drop-shadow-md leading-tight">
+			<span class="text-white text-[1.4vh] font-bold drop-shadow-md leading-tight">
 				Dirty
 			</span>
 			<span class="text-red-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-md leading-tight whitespace-nowrap">
@@ -134,9 +134,9 @@
 
 	<!-- Job -->
 	<div class="flex items-center gap-[0.8vh]">
-		<div class="w-[0.2vh] h-[2.5vh] bg-purple-400 drop-shadow-md"></div>
+		<div class="w-[0.2vh] h-[85%] bg-purple-400 drop-shadow-md"></div>
 		<div class="flex flex-col">
-			<span class="text-white text-[1.4vh] font-medium drop-shadow-md leading-tight">
+			<span class="text-white text-[1.4vh] font-bold drop-shadow-md leading-tight">
 				{$Hud.PlayerData.Job}
 			</span>
 			<span class="text-purple-300 text-[1.2vh] font-medium drop-shadow-md leading-tight">

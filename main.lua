@@ -77,8 +77,7 @@ function Mani_Hud:Update()
     if self.HasWeapon then
         local Weapon = cache.weapon
         self.Weapon = Config.Weapons[Weapon] or 'Unknown Weapon'
-        self.Ammo = GetAmmoInPedWeapon(Ped, Weapon)
-        self.MaxAmmo = Mani_Hud:GetAmmoCount(Weapon)
+        Mani_Hud:UpdateAmmo(Ped, Weapon)
     end
 
     if self.InVehicle then
@@ -169,16 +168,16 @@ function Mani_Hud:Initiate()
 
     local HudSettings = lib.callback.await('mani-hud:server:getSettings', false)
     if HudSettings then
-        if HudSettings.ShowCompass == 'on' then
-            self.ShowCompass = true
-        elseif HudSettings.ShowCompass == 'off' or HudSettings.ShowCompass == 'vehicle' then
-            self.ShowCompass = false
-        end
-
         self.HudSettings = HudSettings
     end
 
-    if HudSettings.CompassInterval == 'High' then
+    if self.HudSettings.ShowCompass == 'on' then
+        self.ShowCompass = true
+    elseif self.HudSettings.ShowCompass == 'off' or self.HudSettings.ShowCompass == 'vehicle' then
+        self.ShowCompass = false
+    end
+
+    if self.HudSettings.CompassInterval == 'High' then
         self:HighCompassInterval()
     end
 

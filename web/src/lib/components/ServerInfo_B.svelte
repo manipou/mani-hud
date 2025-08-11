@@ -38,7 +38,7 @@
 </svelte:head>
 
 <!-- Server Info Container -->
-<div class="fixed top-[3vh] right-[2vh] flex flex-col items-end pointer-events-none font-['Inter'] select-none">
+<div class="flex flex-col items-end pointer-events-none font-['Inter'] select-none">
 	<!-- Server Logo -->
 	{#if $Hud.ServerLogo}
 		<div class="mb-[1vh]">

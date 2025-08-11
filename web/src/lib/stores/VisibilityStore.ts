@@ -54,6 +54,10 @@ export const Hud = writable<{
 		ServerInfo: string;
 		CompassMode: string;
         CompassInterval: string;
+        Offsets: {
+            ServerInfo: { X: number; Y: number };
+            [key: string]: { X: number; Y: number };
+        };
     }
 }>({
     Showing: true,
@@ -97,6 +101,9 @@ export const Hud = writable<{
 		Stats: "A",
 		ServerInfo: "A",
 		CompassMode: "Camera",
-        CompassInterval: "Low"
+        CompassInterval: "Low",
+        Offsets: {
+            ServerInfo: { X: 0, Y: 0 }
+        }
     }
 });

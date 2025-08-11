@@ -70,9 +70,12 @@ function Mani_Hud:UpdatePlayerData()
     }
 end
 
-function Mani_Hud:GetAmmoCount(weapon)
-    return exports['ox_inventory']:Search('count', AmmoTypes[weapon]) or 0
+function Mani_Hud:UpdateAmmo(Ped, Weapon)
+    local _, ammo = GetAmmoInClip(Ped, Weapon)
+    self.Ammo = ammo
+    self.MaxAmmo = exports['ox_inventory']:Search('count', AmmoTypes[Weapon]) or 0
 end
+
 
 RegisterNetEvent('pma-voice:setTalkingMode', function(range)
     Mani_Hud.VoiceRange = range

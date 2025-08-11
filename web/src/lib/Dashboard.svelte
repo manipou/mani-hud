@@ -6,10 +6,10 @@
 	import ServerInfo_A from "$lib/components/ServerInfo_A.svelte";
 	import ServerInfo_B from "$lib/components/ServerInfo_B.svelte";
 	import ServerLogo from "$lib/components/ServerLogo.svelte";
+	import Weapon_A from "$lib/components/Weapon_A.svelte";
 	import Settings from "$lib/components/Settings.svelte";
 	import { Hud } from "./stores/VisibilityStore";
 	import { fade } from 'svelte/transition';
-
 </script>
 
 <svelte:head>
@@ -21,7 +21,7 @@
 
 	<Minimap />
 
-	{#if $Hud.ShowCompass }
+	{#if $Hud.ShowCompass}
 		<Compass />
 	{/if}
 
@@ -38,4 +38,6 @@
 	{:else if $Hud.HudSettings.ServerInfo === 'Off'}
 		<ServerLogo />
 	{/if}
+
+	<Weapon_A />
 </div>

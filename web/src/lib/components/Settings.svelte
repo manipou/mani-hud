@@ -6,12 +6,15 @@
 	// Category visibility state
 	let displaySettingsOpen = true;
 	let performanceSettingsOpen = true;
+	let offsetSettingsOpen = true;
 
 	function toggleCategory(category: string) {
 		if (category === 'display') {
 			displaySettingsOpen = !displaySettingsOpen;
 		} else if (category === 'performance') {
 			performanceSettingsOpen = !performanceSettingsOpen;
+		} else if (category === 'offsets') {
+			offsetSettingsOpen = !offsetSettingsOpen;
 		}
 	}
 
@@ -61,6 +64,21 @@
 			HudSettings: {
 				...h.HudSettings,
 				ServerInfo: value
+			}
+		}));
+
+		fetchNui("UpdateSettings", $Hud.HudSettings)
+	}
+
+	function setServerInfoOffset(value: { X: number, Y: number }) {
+		Hud.update(h => ({
+			...h,
+			HudSettings: {
+				...h.HudSettings,
+				Offsets: {
+					...h.HudSettings.Offsets,
+					ServerInfo: value
+				}
 			}
 		}));
 
@@ -276,10 +294,10 @@
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
 						</svg>
 					</button>
-					
+
 					{#if performanceSettingsOpen}
 						<div class="space-y-[0.6vh] pl-[0.6vh]" transition:slide={{ duration: 200 }}>
-							
+
 							<!-- Compass Interval -->
 							<div class="flex items-center justify-between">
 								<label class="text-slate-300 text-[1.1vh] font-medium">Compass Interval</label>
@@ -301,6 +319,7 @@
 								</div>
 							</div>
 						</div>
+
 					{/if}
 				</div>
 			</div>
