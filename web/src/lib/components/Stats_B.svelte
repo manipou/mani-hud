@@ -93,59 +93,6 @@
 
 <!-- Modern HUD Stats Container -->
 <div class="fixed top-[3vh] right-[2vh] flex flex-col items-end pointer-events-none font-['Inter'] select-none">
-    <!-- Top Info Bar -->
-    <div class="flex justify-end items-center gap-[1vh] mb-[1.2vh]">
-        <!-- Voice Status -->
-        <div class="bg-slate-900/95 px-[0.8vh] py-[0.6vh] rounded-[0.2vh] border border-slate-600/30 shadow-lg flex items-center gap-[0.6vh] transition-all duration-200 hover:border-slate-500/40">
-            <div class="flex items-center justify-center w-[2vh]">
-                <i class="fas fa-microphone{$Hud.Talking ? '' : '-slash'} text-[1.4vh] transition-all duration-200 {$Hud.Talking ? 'text-emerald-400 drop-shadow-[0_0_4px_rgba(16,185,129,0.6)] animate-pulse' : 'text-slate-400'}"></i>
-            </div>
-            <div class="flex items-center justify-center w-[1.8vh]">
-                {#if $Hud.VoiceRange === 1}
-                    <i class="fas fa-volume-off text-[1.3vh] text-slate-300"></i>
-                {:else if $Hud.VoiceRange === 2}
-                    <i class="fas fa-volume-down text-[1.3vh] text-amber-400"></i>
-                {:else if $Hud.VoiceRange === 3}
-                    <i class="fas fa-volume-up text-[1.3vh] text-emerald-400"></i>
-                {:else}
-                    <span class="inline-block" style="width:1.3vh;"></span>
-                {/if}
-            </div>
-        </div>
-        
-        <!-- Player Info -->
-        <div class="bg-slate-900/95 px-[0.8vh] py-[0.4vh] rounded-[0.2vh] border border-slate-600/30 shadow-lg flex items-center gap-[0.8vh] transition-all duration-200 hover:border-slate-500/40">
-            <!-- Player ID -->
-            <div class="flex items-center gap-[0.5vh]">
-                <i class="fas fa-id-card text-cyan-400 text-[1.2vh]"></i>
-                <span class="text-slate-200 text-[1.2vh] font-medium">{$Hud?.Id ?? '---'}</span>
-            </div>
-            
-            <!-- Player Count -->
-            {#if $Hud.PlayerCount}
-                <div class="flex items-center gap-[0.4vh] border-l border-slate-600/30 pl-[0.8vh]">
-                    <i class="fas fa-users text-violet-400 text-[1vh]"></i>
-                    <span class="text-slate-200 text-[1.1vh] font-medium">{$Hud.PlayerCount}</span>
-                </div>
-            {/if}
-        </div>
-        
-        <!-- Date & Time -->
-        <div class="bg-slate-900/95 px-[0.8vh] py-[0.4vh] rounded-[0.2vh] border border-slate-600/30 shadow-lg flex items-center gap-[0.8vh] transition-all duration-200 hover:border-slate-500/40">
-            <!-- Date -->
-            <div class="flex items-center gap-[0.5vh]">
-                <i class="fas fa-calendar-day text-orange-400 text-[1.2vh]"></i>
-                <span class="text-slate-200 text-[1.2vh] font-medium">{currentDate}</span>
-            </div>
-            
-            <!-- Time -->
-            <div class="flex items-center gap-[0.4vh] border-l border-slate-600/30 pl-[0.8vh]">
-                <i class="far fa-clock text-blue-400 text-[1.1vh]"></i>
-                <span class="text-slate-200 text-[1.1vh] font-medium font-['JetBrains_Mono']">{currentTime}</span>
-            </div>
-        </div>
-    </div>
-    
     <!-- Main Stats Container -->
     <div class="relative">
         <!-- Stats Panel -->
@@ -156,7 +103,7 @@
                     <div class="w-[1.8vh] h-[1.8vh] flex items-center justify-center bg-emerald-600/90 rounded-[0.2vh] shadow-md group-hover:shadow-emerald-500/20 transition-all duration-200">
                         <i class="fas fa-wallet text-white text-[1vh]"></i>
                     </div>
-                    <span class="text-slate-300 text-[1.2vh] font-medium">Kontant</span>
+                    <span class="text-slate-300 text-[1.2vh] font-medium">Cash</span>
                 </div>
                 <span class="text-emerald-300/90 text-[1.2vh] font-medium font-['JetBrains_Mono']">
                     {formatCurrency(Math.floor($money))}
@@ -183,7 +130,7 @@
                         <div class="w-[1.8vh] h-[1.8vh] flex items-center justify-center bg-red-600/90 rounded-[0.2vh] shadow-md group-hover:shadow-red-500/20 transition-all duration-200">
                             <i class="fas fa-money-bill-wave text-white text-[1vh]"></i>
                         </div>
-                        <span class="text-slate-300 text-[1.2vh] font-medium">Sorte</span>
+                        <span class="text-slate-300 text-[1.2vh] font-medium">Dirty</span>
                     </div>
                     <span class="text-red-300/90 text-[1.2vh] font-medium font-['JetBrains_Mono']">
                         {formatCurrency(Math.floor($blackMoney))}

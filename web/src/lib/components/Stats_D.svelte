@@ -33,7 +33,8 @@
 		if (!$Hud?.Currency) return value.toLocaleString();
 		
 		const { Symbol, Position, Separator } = $Hud.Currency;
-		const formattedValue = Separator ? value.toLocaleString() : value.toString();
+		// Use toLocaleString() for proper comma formatting
+		const formattedValue = value.toLocaleString();
 		
 		return Position === 'before' 
 			? `${Symbol} ${formattedValue}` 
@@ -91,44 +92,56 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </svelte:head>
 
-<!-- Stats Container - HUD Theme Match -->
-<div class="fixed top-[3vh] right-[2vh] flex flex-col items-end pointer-events-none font-['Inter'] select-none">
+<!-- Modern HUD Stats Container -->
+<div class="absolute top-0 left-[calc(100%+0.5vh)] h-full flex flex-col justify-between items-start pointer-events-none font-['Inter'] select-none">
 	<!-- Cash -->
-	<div class="flex items-center gap-[0.6vh] mb-[0.5vh]">
-		<span class="text-emerald-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]">
-			{formatCurrency(Math.floor($money))}
-		</span>
-		<i class="fas fa-wallet text-emerald-400 text-[1.2vh] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]"></i>
+	<div class="flex items-center gap-[0.8vh]">
+		<div class="w-[0.2vh] h-[85%] bg-emerald-400 drop-shadow-md"></div>
+		<div class="flex flex-col">
+			<span class="text-white text-[1.4vh] font-bold drop-shadow-md leading-tight">
+				Cash
+			</span>
+			<span class="text-emerald-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-md leading-tight whitespace-nowrap">
+				{formatCurrency(Math.floor($money))}
+			</span>
+		</div>
 	</div>
-	
+
 	<!-- Bank -->
-	<div class="flex items-center gap-[0.6vh] mb-[0.5vh]">
-		<span class="text-blue-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]">
-			{formatCurrency(Math.floor($bank))}
-		</span>
-		<i class="fas fa-university text-blue-400 text-[1.2vh] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]"></i>
+	<div class="flex items-center gap-[0.8vh]">
+		<div class="w-[0.2vh] h-[85%] bg-blue-400 drop-shadow-md"></div>
+		<div class="flex flex-col">
+			<span class="text-white text-[1.4vh] font-bold drop-shadow-md leading-tight">
+				Bank
+			</span>
+			<span class="text-blue-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-md leading-tight whitespace-nowrap">
+				{formatCurrency(Math.floor($bank))}
+			</span>
+		</div>
 	</div>
-	
-	<!-- Black Money -->
-	{#if $blackMoney > 0}
-		<div class="flex items-center gap-[0.6vh] mb-[0.5vh]">
-			<span class="text-red-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]">
+
+	<div class="flex items-center gap-[0.8vh]">
+		<div class="w-[0.2vh] h-[85%] bg-red-400 drop-shadow-md"></div>
+		<div class="flex flex-col">
+			<span class="text-white text-[1.4vh] font-bold drop-shadow-md leading-tight">
+				Dirty
+			</span>
+			<span class="text-red-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-md leading-tight whitespace-nowrap">
 				{formatCurrency(Math.floor($blackMoney))}
 			</span>
-			<i class="fas fa-money-bill-wave text-red-400 text-[1.2vh] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]"></i>
 		</div>
-	{/if}
-	
+	</div>
+
 	<!-- Job -->
-	<div class="flex items-center gap-[0.6vh]">
-		<div class="flex flex-col items-end">
-			<span class="text-purple-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)] leading-tight">
+	<div class="flex items-center gap-[0.8vh]">
+		<div class="w-[0.2vh] h-[85%] bg-purple-400 drop-shadow-md"></div>
+		<div class="flex flex-col">
+			<span class="text-white text-[1.4vh] font-bold drop-shadow-md leading-tight">
 				{$Hud.PlayerData.Job}
 			</span>
-			<span class="text-purple-300/80 text-[1vh] font-medium font-['JetBrains_Mono'] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)] leading-tight">
+			<span class="text-purple-300 text-[1.2vh] font-medium drop-shadow-md leading-tight">
 				{$Hud.PlayerData.Grade}
 			</span>
 		</div>
-		<i class="fas fa-briefcase text-purple-400 text-[1.2vh] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]"></i>
 	</div>
 </div>

@@ -13,8 +13,6 @@
 		if (normalizedHeading >= 247.5 && normalizedHeading < 292.5) return "W";
 		return "NW";
 	})();
-
-	$: streetDisplay = $Hud.Zone ? `${$Hud.StreetName} / ${$Hud.Zone}` : $Hud.StreetName;
 </script>
 
 <svelte:head>
@@ -24,19 +22,19 @@
 {#if $Hud.ShowCompass}
 	<div class="fixed top-[1vh] inset-x-0 mx-auto w-[30vw] flex items-center justify-center pointer-events-none z-50 font-['Inter'] select-none">
 		<div class="flex-1 text-right pr-2 overflow-hidden">
-			<span class="text-slate-200 text-[1.2vh] font-medium tracking-wide">
+			<span class="text-slate-200 text-[1.2vh] font-medium tracking-wide drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]">
 				{$Hud.StreetName}
 			</span>
 		</div>
 
 		<div class="px-[0.8vh] py-[0.2vh] bg-slate-900/95 rounded-[0.2vh] border border-slate-600/30 shadow-lg text-center w-[3.75vw] h-[2.6vh] flex justify-center items-center transition-all duration-200 hover:border-slate-500/40">
-			<span class="text-slate-100 text-[1.3vh] font-medium font-['JetBrains_Mono'] tracking-wide whitespace-nowrap">
+			<span class="text-slate-100 text-[1.3vh] font-medium font-['JetBrains_Mono'] tracking-wide whitespace-nowrap drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]">
 				{Math.round($Hud.Heading)}° {currentDirection}
 			</span>
 		</div>
 
 		<div class="flex-1 text-left pl-2 overflow-hidden">
-			<span class="text-slate-200 text-[1.2vh] font-medium tracking-wide">
+			<span class="text-slate-200 text-[1.2vh] font-medium tracking-wide drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]">
 				{$Hud.Zone}
 			</span>
 		</div>

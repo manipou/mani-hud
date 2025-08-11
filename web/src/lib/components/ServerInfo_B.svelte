@@ -45,37 +45,37 @@
 			<img 
 				src={$Hud.ServerLogo} 
 				alt="Server Logo" 
-				class="h-[4vh] w-auto object-contain drop-shadow-lg"
+				class="h-[4vh] w-auto object-contain drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]"
 			/>
 		</div>
 	{/if}
 	
 	<!-- Player ID -->
 	<div class="flex items-center gap-[0.6vh] mb-[0.5vh] flex-row-reverse">
-		<i class="fas fa-user text-emerald-400 text-[1.2vh] drop-shadow-md"></i>
-		<span class="text-emerald-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-md">
+		<i class="fas fa-user text-emerald-400 text-[1.2vh] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]"></i>
+		<span class="text-emerald-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]">
 			#{$Hud.Id}
 		</span>
-		<span class="text-white text-[1.2vh] font-medium drop-shadow-md">ID: </span>
+		<span class="text-white text-[1.2vh] font-medium drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]">ID: </span>
 	</div>
 	
 	<!-- Player Count -->
 	<div class="flex items-center gap-[0.6vh] mb-[0.5vh] flex-row-reverse">
-		<i class="fas fa-users text-blue-400 text-[1.2vh] drop-shadow-md"></i>
-		<span class="text-blue-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-md">
+		<i class="fas fa-users text-blue-400 text-[1.2vh] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]"></i>
+		<span class="text-blue-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]">
 			{$Hud.PlayerCount}
 		</span>
-		<span class="text-white text-[1.2vh] font-medium drop-shadow-md">Online: </span>
+		<span class="text-white text-[1.2vh] font-medium drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]">Online: </span>
 	</div>
 
     <!-- Date & Time Combined -->
 	<div class="flex items-center gap-[0.6vh] flex-row-reverse">
-		<i class="fas fa-clock text-cyan-400 text-[1.2vh] drop-shadow-md"></i>
+		<i class="fas fa-clock text-cyan-400 text-[1.2vh] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)]"></i>
 		<div class="flex flex-col items-end">
-			<span class="text-cyan-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-md leading-tight">
+			<span class="text-cyan-300 text-[1.2vh] font-medium font-['JetBrains_Mono'] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)] leading-tight">
 				{currentTime}
 			</span>
-			<span class="text-cyan-300/80 text-[1vh] font-medium font-['JetBrains_Mono'] drop-shadow-md leading-tight">
+			<span class="text-cyan-300/80 text-[1vh] font-medium font-['JetBrains_Mono'] drop-shadow-[0_2px_1px_rgba(0,0,0,0.5)] leading-tight">
 				{currentDate}
 			</span>
 		</div>
