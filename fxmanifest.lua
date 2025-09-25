@@ -31,5 +31,6 @@ files {
 escrow_ignore {
   'config.lua',
   'client/*.lua',
+  'server/*.lua',
   'framework/*.lua',
 }
